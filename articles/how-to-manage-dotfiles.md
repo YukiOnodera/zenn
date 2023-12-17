@@ -2,7 +2,7 @@
 title: chezmoi を使った dotfiles の管理方法
 yaml_title: how-to-manage-dotfiles
 created: 2023-12-16 12:56:52
-updated: 2023-12-16 14:32:10
+updated: 2023-12-17 15:18:47
 tags: 
 aliases: 
 emoji: 🌊
