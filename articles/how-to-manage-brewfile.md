@@ -2,7 +2,7 @@
 title: 私の Brewfile 管理方法
 yaml_title: how-to-manage-brewfile
 created: 2023-12-18 14:18:50
-updated: 2023-12-18 14:44:03
+updated: 2023-12-18 14:50:46
 tags: 
 aliases: 
 emoji: 🐥
@@ -33,22 +33,23 @@ brew bundle dump -f
 ```
 brew bundle
 ```
-## Chezmoi で反映
+## Chezmoi に反映
 
 chezmoi で Brewfile を管理している人は、変更を反映しておきましょう。
 
+### 差分確認
 ```
-# 差分確認
 chezmoi diff
-# Chezmoi 反映
+```
+### リポジトリに Push
+```
 chezmoi re-add Brewfile
 chezmoi cd
 git add . && git commit -m "message" && git push
 ```
-
 # おわりに
 
-定期的なタスクは忘れがち。まとめられてよかった。
+定期的なタスクは忘れがち。まとめられてよかった！
 
 # 参考
 
