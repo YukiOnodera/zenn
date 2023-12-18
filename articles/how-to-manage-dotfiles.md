@@ -2,7 +2,7 @@
 title: chezmoi を使った dotfiles の管理方法
 yaml_title: how-to-manage-dotfiles
 created: 2023-12-16 12:56:52
-updated: 2023-12-17 15:18:47
+updated: 2023-12-18 14:44:45
 tags: 
 aliases: 
 emoji: 🌊
@@ -25,7 +25,7 @@ type: tech
 
 # 運用フロー
 
-## Dotfiles を更新した時
+## Dotfiles を更新したい
 
 まずは差分を確認
 
@@ -39,7 +39,7 @@ chezmoi diff
 chezmoi re-add
 ```
 
-## Dotfiles を Git Push したい時
+## Dotfiles を Git Push したい
 
 ディレクトリを移動
 
@@ -53,7 +53,7 @@ chezmoi cd
 git add . && git commit -m "message" && git push
 ```
 
-## Dotfiles を新しく追加したい時
+## Dotfiles を新しく追加したい
 
 対象のファイルを追加
 
@@ -61,6 +61,11 @@ git add . && git commit -m "message" && git push
 chezmoi add ~/path/to/file
 ```
 
+## Dotfiles を削除する
+
+```
+chezmoi remove target
+```
 # おわりに
 
 これで普段の運用が楽になりそう。
