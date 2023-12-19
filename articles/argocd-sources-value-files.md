@@ -46,6 +46,7 @@ ArgoCD のApplication をマニフェストファイルで定義していると�
 # おわりに
 ちょっと手こずったので、誰かの参考になればと思い、まとめておきました。
 valueObject で定義してもいいのですが、数が多い場合はvalueFiles を使うと便利だと思います。
+ちなみに、valueFiles, valueObject の併用はできないので注意です。
 
 # 参考
 [Multiple Sources for an Application - Argo CD - Declarative GitOps CD for Kubernetes](https://argo-cd.readthedocs.io/en/stable/user-guide/multiple_sources/#helm-value-files-from-external-git-repository)
