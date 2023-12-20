@@ -2,7 +2,7 @@
 title: Kubernetes Pod Probe の種類と必要性
 yaml_title: k8s-probe-necessity
 created: 2023-12-20 14:41:40
-updated: 2023-12-20 15:09:48
+updated: 2023-12-20 15:12:56
 tags: 
 aliases: 
 emoji: 💭
@@ -16,7 +16,7 @@ type: tech
 ---
 # はじめに
 
-Pod Probe を導入するか迷ったので、改めてその種類や必要性について整理します。
+Kubernetes の Pod Probe を導入するか迷ったので、改めてその種類や必要性について整理します。
 
 > 元々導入済みだが、環境移行のタイミングで各種定義の棚卸しがしたかった
 # 解説
