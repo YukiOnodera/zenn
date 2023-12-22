@@ -2,7 +2,7 @@
 title: Apache と Nginx のヘルスチェック用エンドポイント設定
 yaml_title: web-container-healthcheck
 created: 2023-12-22 17:19:26
-updated: 2023-12-22 17:31:33
+updated: 2023-12-22 17:47:57
 tags: 
 aliases: 
 emoji: 🎃
