@@ -2,7 +2,7 @@
 title: web コンテナのReadiness Probe はどこを見ればいいのか
 yaml_title: web-container-readiness-probe
 created: 2023-12-22 17:32:34
-updated: 2023-12-22 17:41:21
+updated: 2023-12-22 17:47:20
 tags: 
 aliases: 
 emoji: 👌
@@ -27,7 +27,7 @@ web コンテナの Health Check 用エンドポイントを見ればいいの�
 
 # 解決方法
 
-backend のアプリケーションの TOP ページを指定しましょう。
+**backend アプリケーションの TOP ページ**などを指定しましょう。
 
 こうすることで、backend のコンテナが障害で落ちた場合に、ReadinessProbe に失敗して web コンテナにトラフィックが流れなくなります。
 
