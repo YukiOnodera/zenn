@@ -2,11 +2,12 @@
 title: Rails における DB_POOL や WORKER 数の最適解
 yaml_title: define-worker-threads-for-puma
 created: 2023-12-21 11:39:01
-updated: 2023-12-21 12:17:17
+updated: 2023-12-21 17:47:12
 tags: 
 aliases: 
 emoji: 🐥
 published: true
+published_at: 2023-12-22
 topics:
   - Rails
   - Nginx
@@ -14,7 +15,6 @@ topics:
   - Puma
   - Unicorn
 type: tech
-published_at: 2023-12-22
 ---
 # はじめに
 
@@ -24,7 +24,7 @@ Nginx, Puma or Unicorn, Rails, Sidekiq 環境における DB_POOL, WORKER 数な
 
 本題に入る前に、WORKER 数を設定するためには、CPU コア数について知っておかなければなりません。
 
-答えのみを求める人は、すっ飛ばしてもらってOK.
+答えのみを求める人は、すっ飛ばしてもらって OK.
 
 ## 物理コアと論理コア
 
