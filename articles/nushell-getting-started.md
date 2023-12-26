@@ -2,17 +2,17 @@
 title: 最近話題の Nushell の Quick Tour やってみた
 yaml_title: nushell-getting-started
 created: 2023-12-26 12:13:15
-updated: 2023-12-26 12:59:55
+updated: 2023-12-26 18:28:19
 tags: 
 aliases: 
 emoji: 🙌
 published: true
+published_at: 2023-12-27
 topics:
   - Nushell
   - zsh
   - shell
 type: tech
-published_at: 2023-12-27
 ---
 # はじめに
 
@@ -166,4 +166,5 @@ Quck Tour をやってみた感想としては、zsh などよりも**デフォ�
 まだデフォルトシェルにするには心許ないので、引き続きドキュメントを見ながら色々と検証してみようと思います。
 
 # 参考
+
 [Quick Tour | Nushell](https://www.nushell.sh/book/quick_tour.html)
