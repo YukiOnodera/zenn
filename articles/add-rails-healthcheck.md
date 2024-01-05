@@ -2,7 +2,7 @@
 title: Rails に Health Check 用エンドポイントを追加
 yaml_title: add-rails-healthcheck
 created: 2023-12-28 11:11:34
-updated: 2023-12-28 11:30:30
+updated: 2023-12-29 17:32:49
 tags: 
 aliases: 
 emoji: 📝
