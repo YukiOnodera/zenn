@@ -7,7 +7,7 @@ tags:
 aliases: 
 emoji: 👌
 published: true
-published_at: 2024-01-10T11:00:00
+published_at: 2024-01-10 11:00:00
 topics:
   - AWS
   - SSO
