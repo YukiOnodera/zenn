@@ -2,7 +2,7 @@
 title: IAM Identity Store で外部IdP を利用しつつグループを作成する方法
 yaml_title: how-to-manage-identitystore-group
 created: 2024-01-09 18:01:37
-updated: 2024-01-09 18:15:37
+updated: 2024-01-09 18:17:46
 tags: 
 aliases: 
 emoji: 👌
