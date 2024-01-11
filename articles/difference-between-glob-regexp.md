@@ -2,7 +2,7 @@
 title: Glob と正規表現の違い
 yaml_title: difference-between-glob-regexp
 created: 2023-12-26 18:53:20
-updated: 2023-12-26 19:02:13
+updated: 2024-01-11 16:48:27
 tags: 
 aliases: 
 emoji: 😎

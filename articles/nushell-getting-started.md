@@ -2,7 +2,7 @@
 title: 最近話題の Nushell の Quick Tour やってみた
 yaml_title: nushell-getting-started
 created: 2023-12-26 12:13:15
-updated: 2023-12-26 18:28:19
+updated: 2024-01-11 17:05:38
 tags: 
 aliases: 
 emoji: 🙌
@@ -12,6 +12,7 @@ topics:
   - Nushell
   - zsh
   - shell
+  - Nu
 type: tech
 ---
 # はじめに

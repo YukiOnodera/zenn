@@ -2,7 +2,7 @@
 title: AWS の発表した SOCI とは何か
 yaml_title: what-is-soci
 created: 2024-01-09 17:49:36
-updated: 2024-01-09 17:59:50
+updated: 2024-01-11 16:20:54
 tags: 
 aliases: 
 emoji: ✨
