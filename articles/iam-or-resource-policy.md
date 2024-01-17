@@ -2,7 +2,7 @@
 title: アクセス制御にはIAM Policy とResource Based Policy どちらを使うべきか
 yaml_title: iam-or-resource-policy
 created: 2024-01-17 17:17:23
-updated: 2024-01-17 17:34:17
+updated: 2024-01-17 17:35:36
 tags: 
 aliases: 
 emoji: 📝
@@ -52,7 +52,7 @@ Deny を用いた制御に関しても、慎重に扱わなければなりませ
 
 Resource Based Policy については、全く使用しないというわけではなく、利用するタイミングとしては、その AWS サービスの**リソース固有の設定や外部アクセスの制御など**が考えられそうです。
 
-組織の AWS ログイン方式を SSO に移行している最中なのですが、バケット周りのアクセス権限が原因で terraform apply が妨げられ、苦戦しました。
+組織の AWS ログイン方式を SSO に移行している最中なのですが、バケット周りのアクセス権限が原因で terraform apply がうまくいかなくて苦戦しました。
 
 これでなんとかなりそうです。
 
