@@ -2,12 +2,12 @@
 title: 超簡単! 遂にGAとなった OpenTofu への移行方法
 yaml_title: migrate-to-opentofu
 created: 2024-01-18 15:54:34
-updated: 2024-01-18 16:12:24
+updated: 2024-01-18 18:09:24
 tags: 
 aliases: 
 emoji: 🤖
 published: true
-published_at: 2024-01-19 11:00
+published_at: 2024-01-22 11:00
 topics:
   - Terraform
   - OpenTofu
