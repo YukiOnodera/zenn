@@ -1,14 +1,17 @@
 ---
-title: ""
+title: OpenTofu が GA に！新機能や今後の方針まとめ
 yaml_title: opentofu-ga-v1-6
 created: 2024-01-18 17:41:01
-updated: 2024-01-18 18:08:56
+updated: 2024-01-19 13:47:02
 tags: 
 aliases: 
 emoji: 👻
 published: true
 published_at: 2024-01-19 11:00
-topics: 
+topics:
+  - Terraform
+  - OpenTofu
+  - IaC
 type: tech
 ---
 # はじめに
