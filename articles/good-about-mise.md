@@ -2,7 +2,7 @@
 title: 痒い所に手が届く。開発環境構築ツール mise (旧rtx) の何がいいのか？
 yaml_title: good-about-mise
 created: 2024-01-25 15:33:58
-updated: 2024-01-25 17:16:00
+updated: 2024-01-25 17:17:01
 tags: 
 aliases: 
 emoji: 🕌
