@@ -123,7 +123,7 @@ mise には Github Actions の Workflow である [GitHub - jdx/mise-action](htt
 ```yaml:Example.yaml
 ...
 - uses: jdx/mise-action@v2
-with:
+  with:
   version: 2023.12.0 # [default: latest] mise version to install
   install: true # [default: true] run `mise install`
   cache: true # [default: true] cache mise using GitHub's cache
