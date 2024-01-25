@@ -2,7 +2,7 @@
 title: 痒い所に手が届く。mise (旧rtx) の何がいいのか？
 yaml_title: good-about-mise
 created: 2024-01-25 15:33:58
-updated: 2024-01-25 17:17:01
+updated: 2024-01-25 17:37:47
 tags: 
 aliases: 
 emoji: 🕌
@@ -20,6 +20,8 @@ type: tech
 年明けに、バージョン管理ツールを asdf から **mise** に乗り換えました。
 
 [Home | mise-en-place](https://mise.jdx.dev/)
+
+mise で管理できる Plugin の一覧は [GitHub - mise-plugins/registry: Convenience shortname repository for mise plugins](https://github.com/mise-plugins/registry) に全て載っています。
 
 ここまで使ってみて、ここが**いいなと思った点**と、**今後使ってみたい機能**などを書いていこうと思います。
 
