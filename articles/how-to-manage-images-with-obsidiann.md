@@ -2,7 +2,7 @@
 title: Zenn x Obsidian x Github 環境で記事に画像を入れる方法
 yaml_title: how-to-manage-images-with-obsidiann
 created: 2024-01-30 12:59:39
-updated: 2024-01-31 10:41:58
+updated: 2024-01-31 10:46:00
 tags: 
 aliases: 
 emoji: 🐥
