@@ -6,4 +6,10 @@
 
 # おわりに
 
+# Infra or SRE の方にはこちらもおすすめ
+
+https://zenn.dev/yukionodera/articles/good-about-mise
+
+https://zenn.dev/yukionodera/articles/how-to-check-cwl-cost
+
 # 参考
