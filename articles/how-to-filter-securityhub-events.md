@@ -6,7 +6,7 @@ updated: 2024-02-06 17:52:06
 tags: 
 aliases: 
 emoji: 📌
-published: true
+published: false
 topics:
   - AWS
   - security
