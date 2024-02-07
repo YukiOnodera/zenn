@@ -2,7 +2,7 @@
 title: Arc Browser の今後に関するリリース動画がワクワクしたのでご紹介！
 yaml_title: arc-2-released
 created: 2024-02-02 14:43:05
-updated: 2024-02-02 15:32:25
+updated: 2024-02-08 08:08:20
 tags: 
 aliases: 
 emoji: 🎃
@@ -105,6 +105,14 @@ Arc は毎週木曜日あたりにリリースノートを出してくれてい�
 最近は **Windows 版もリリースされた**ので、興味のある方はぜひ使ってみることをお勧めします。
 
 私は昨年の夏頃に Chrome から乗り換えたのですが、本当に便利なブラウザで、他のブラウザは今は考えられません。
+
+# こちらもおすすめ
+
+https://zenn.dev/yukionodera/articles/good-about-mise
+
+https://zenn.dev/yukionodera/articles/how-to-manage-dotfiles
+
+https://zenn.dev/yukionodera/articles/how-to-check-cwl-cost
 
 # 参考
 

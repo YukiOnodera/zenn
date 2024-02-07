@@ -2,7 +2,7 @@
 title: Security Hub の Findings をEvent Bridge でフィルタリングして通知
 yaml_title: how-to-filter-securityhub-events
 created: 2024-02-06 16:59:13
-updated: 2024-02-07 17:08:36
+updated: 2024-02-08 08:09:07
 tags: 
 aliases: 
 emoji: 📌
@@ -99,9 +99,11 @@ EventBridge のイベントパターンでは、さまざまな比較演算子�
 
 ASFF 構文やら EventBridge やら、JSON 読むのはめんどくさいですが、一度構造を理解すれば簡単です。
 
-# Infra or SRE の方にはこちらもおすすめ
+# こちらもおすすめ
 
 https://zenn.dev/yukionodera/articles/good-about-mise
+
+https://zenn.dev/yukionodera/articles/how-to-manage-dotfiles
 
 https://zenn.dev/yukionodera/articles/how-to-check-cwl-cost
 

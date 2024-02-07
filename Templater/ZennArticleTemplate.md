@@ -6,9 +6,10 @@
 
 # おわりに
 
-# Infra or SRE の方にはこちらもおすすめ
-
+# こちらもおすすめ
 https://zenn.dev/yukionodera/articles/good-about-mise
+
+https://zenn.dev/yukionodera/articles/how-to-manage-dotfiles
 
 https://zenn.dev/yukionodera/articles/how-to-check-cwl-cost
 

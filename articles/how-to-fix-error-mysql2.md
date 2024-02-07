@@ -2,7 +2,7 @@
 title: bundle install で発生する mysql2 のインストールエラー対処法
 yaml_title: how-to-fix-error-mysql2
 created: 2023-12-27 16:24:24
-updated: 2023-12-27 16:42:29
+updated: 2024-02-08 08:06:17
 tags: 
 aliases: 
 emoji: 👋
@@ -14,6 +14,7 @@ topics:
   - bundle
 type: tech
 ---
+
 # はじめに
 
 `bundle install` 実行時に、mysql2 のインストールに失敗しました。
