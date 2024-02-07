@@ -1,24 +1,24 @@
 ---
-title: Security Hub の Findings をEvent Bridge でフィルタリング
+title: Security Hub の Findings をEvent Bridge でフィルタリングして通知
 yaml_title: how-to-filter-securityhub-events
 created: 2024-02-06 16:59:13
-updated: 2024-02-06 17:52:06
+updated: 2024-02-07 17:08:36
 tags: 
 aliases: 
 emoji: 📌
-published: false
+published: true
+published_at: 2024-02-08 11:00
 topics:
   - AWS
   - security
   - securityhub
   - Cloudwatch
 type: tech
-published_at: 2024-02-08 11:00
 ---
 
 # はじめに
 
-Security Hub の Findings を複数の通知先に振り分けるために、**EventBridge でフィルタリングする方法**を調べました。
+Security Hub の Findings を複数の通知先に振り分けるために、**EventBridge Rule のイベントパターンでフィルタリングする方法**を調べました。
 
 # 問題
 
@@ -26,10 +26,13 @@ Security Hub の Findings を複数の通知先に振り分けるために、**E
 
 # 解決方法
 
-ASFF 構文に記載のある情報であれば、なんでも Filtering できます。[^page]
+そもそもそこまで細かいフィルタリングができるのか不安だったのですが、可能でした。
 
-やり方は、EventBridge の Rule Pattern 設定にて、下記の `<finding content>` の部分に、ASFF 構文に従って Filtering したい属性を JSON 形式で挿入するだけです。
-> ちなみに、`findings` がASFF構文の冒頭の`Findings`と対応しています。
+ASFF 構文に記載のある情報であれば、なんでも フィルタリング可能です。[^page]
+
+方法としては、**EventBridge Rule のイベントパターン**を利用します。
+
+下記は一例ですが、このようなイベントパターンの定義内で、 `<finding content>` の部分に、**Filtering したい属性を JSON 形式で挿入**することでフィルタリング可能になります。
 
 ```json
 {
@@ -53,22 +56,28 @@ ASFF 構文に記載のある情報であれば、なんでも Filtering でき�
 > 上記は一例なので、必要に応じて値を修正してください。
 > [Security Hub の EventBridge イベント形式 - AWS Security Hub](https://docs.aws.amazon.com/ja_jp/securityhub/latest/userguide/securityhub-cwe-event-formats.html)
 
+> ちなみに、`findings` が ASFF 構文の冒頭の `Findings` と対応しています。
+
+また、属性の記載方法ですが、**ASFF 構文と同じ構造で記載が必要**になります。
+
+注意点としては、ASSF 構文のままだとエラーになるので、**JSON 形式への変換が必要**になります。
+
+例えば、ASFF 構文のままだと `[{ contents }]` のようにリストの中にオブジェクトを入れているような構造になっているので、`[]` を取ってあげることが必要です。
+
 私の設定はこんな感じになりました。
 
 ```json
 {
 ...
-   "detail":{
-      "findings": [{
-	        "Vulnerabilities" : [{
-				"VulnerablePackages": [
-					{
-						"PackageManager": "OS"
-					}
-				]
-			}]
-       }]
-   }
+	"detail":{
+		"findings": {
+			"Vulnerabilities" : {
+				"VulnerablePackages": {
+					"PackageManager": ["OS"]
+				}
+			}
+		}
+	}
 ...
 ```
 
@@ -78,8 +87,17 @@ ASFF 構文に記載のある情報であれば、なんでも Filtering でき�
 
 この構文により、データ変換作業などが不要となる。
 
+## ちなみに
+
+EventBridge のイベントパターンでは、さまざまな比較演算子が利用できるようになっています。
+
+ワイルドカードや `anything-but` などは便利なので、状況によって使い分けると捗ります！
+
+![](/images/how-to-filter-securityhub-events-20240207045237.png)[^1]
+
 # おわりに
-ASFF 構文やらEventBridge やら、JSON読むのはめんどくさいですが、一度構造を理解すれば簡単です。
+
+ASFF 構文やら EventBridge やら、JSON 読むのはめんどくさいですが、一度構造を理解すれば簡単です。
 
 # Infra or SRE の方にはこちらもおすすめ
 
@@ -94,3 +112,4 @@ https://docs.aws.amazon.com/ja_jp/securityhub/latest/userguide/asff-top-level-at
 https://docs.aws.amazon.com/ja_jp/securityhub/latest/userguide/securityhub-cwe-all-findings.html
 
 [^page]: [AWS Security Finding 形式 - AWS Security Hub](https://docs.aws.amazon.com/ja_jp/securityhub/latest/userguide/securityhub-findings-format-syntax.html)
+[^1]: https://docs.aws.amazon.com/ja_jp/eventbridge/latest/userguide/eb-event-patterns.html
