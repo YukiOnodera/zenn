@@ -2,7 +2,7 @@
 title: chezmoi を使った dotfiles の管理方法
 yaml_title: how-to-manage-dotfiles
 created: 2023-12-16 12:56:52
-updated: 2023-12-18 14:44:45
+updated: 2024-02-09 08:54:42
 tags: 
 aliases: 
 emoji: 🌊
@@ -15,6 +15,7 @@ topics:
   - github
 type: tech
 ---
+
 # はじめに
 
 私は、chezmoi を使って PC 内の dotfiles を Github で一括管理しています。
@@ -66,11 +67,20 @@ chezmoi add ~/path/to/file
 ```
 chezmoi remove target
 ```
+
 # おわりに
 
 これで普段の運用が楽になりそう。
 
 chezmoi で dotfiles を管理しておくと、PC の入れ替え時などにかなり役立つので、おすすめです。
+
+# こちらもおすすめ
+
+https://zenn.dev/yukionodera/articles/chezmoi-use-template
+
+https://zenn.dev/yukionodera/articles/setup-second-machine
+
+https://zenn.dev/yukionodera/articles/how-to-manage-brewfile
 
 # 参考
 

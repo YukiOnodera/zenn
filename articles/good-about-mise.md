@@ -2,7 +2,7 @@
 title: 痒い所に手が届く。mise (旧rtx) の何がいいのか？
 yaml_title: good-about-mise
 created: 2024-01-25 15:33:58
-updated: 2024-01-25 17:37:47
+updated: 2024-02-09 08:51:34
 tags: 
 aliases: 
 emoji: 🕌
@@ -15,6 +15,7 @@ topics:
   - SRE
 type: tech
 ---
+
 # はじめに
 
 年明けに、バージョン管理ツールを asdf から **mise** に乗り換えました。
@@ -27,6 +28,7 @@ mise で管理できる Plugin の一覧は [GitHub - mise-plugins/registry: Con
 
 > 今後 asdf, direnv の代替ツールとして広がっていく可能性もありそうなツールです。
 > 個人的には、ツールの性質からもフロントからインフラまで、様々な人におすすめできます。
+
 # Mise の何がいいのか？
 
 ざっと思い浮かぶところは、こんな感じです。
@@ -168,6 +170,14 @@ mise には Github Actions の Workflow である [GitHub - jdx/mise-action](htt
 ここに書いた内容だけでも、十分 mise の恩恵を受けられると思います。
 
 他ツール群との互換性があり導入も簡単なので、**とりあえず入れてみることをおすすめします！**
+
+# こちらもおすすめ
+
+https://zenn.dev/yukionodera/articles/how-to-manage-dotfiles
+
+https://zenn.dev/yukionodera/articles/what-is-soci
+
+https://zenn.dev/yukionodera/articles/what-is-cybersecurity
 
 # 参考
 

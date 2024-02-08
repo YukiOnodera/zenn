@@ -2,7 +2,7 @@
 title: chezmoi 管理のdotfiles でマシン毎に設定を変えたい
 yaml_title: chezmoi-use-template
 created: 2023-12-17 17:03:30
-updated: 2024-02-06 14:33:27
+updated: 2024-02-09 08:53:13
 tags: 
 aliases: 
 emoji: 😊

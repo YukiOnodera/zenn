@@ -2,7 +2,7 @@
 title: EKS 関連の Security Group についてまとめました
 yaml_title: eks-security-groups
 created: 2023-12-22 18:30:47
-updated: 2023-12-25 10:28:46
+updated: 2024-02-09 08:53:18
 tags: 
 aliases: 
 emoji: 📝
@@ -14,6 +14,7 @@ topics:
   - Kubernetes
 type: tech
 ---
+
 # はじめに
 
 EKS 関連の Security Group は複数存在しており、しっかりと理解していないと運用にも苦戦するなと思ったので、まとめました。
@@ -37,6 +38,7 @@ EKS クラスターを作成した時に EKS 側で自動作成される SG.
 > IaC 化を行っている場合だとここが残念
 
 ### アタッチされるリソース
+
 - EKS コントロールプレーン通信用 ENI（EKS-managed ENI）
 - Fargate ノード: EKS on Fargate 利用時
 - マネージドノードグループ内の EC2 ノード: EKS on EC2 利用時
@@ -54,8 +56,10 @@ Optional で作成可能な SG.
 AWS マネジメントコンソールの EKS クラスター設定で「追加のセキュリティグループ」と表示される。
 
 ### アタッチされるリソース
+
 - EKS コントロールプレーン通信用 ENI（EKS-managed ENI）
 > クラスターSG と違い、Fargate ノード、マネージドノードグループ 内の EC2 ノードには付与されない。
+
 ## ノード SG
 
 Optional で、EKS on EC2 限定で使える SG.
@@ -69,7 +73,9 @@ Optional で、EKS on EC2 限定で使える SG.
 作成は必須ではなく、ノード SG の指定がなければクラスターSG がマネージドノードグループに自動適用される。
 
 ### アタッチされるリソース
+
 - マネージドノードグループ内の EC2 ノード
+
 # おわりに
 
 AWS 側で制御ができる EKS 関連の SG については、以上となります。
@@ -83,5 +89,6 @@ AWS 側で制御ができる EKS 関連の SG については、以上となり�
 学習には、公式から出ている [チュートリアル: Pods のセキュリティグループ - Amazon EKS](https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/security-groups-for-pods.html) などを参考にするのがおすすめです。
 
 # 参考
+
 - [EKSのセキュリティグループについて理解する #AWS - Qiita](https://qiita.com/MAKOTO1995/items/4e70998e50aaea5e9882)
 - [チュートリアル: Pods のセキュリティグループ - Amazon EKS](https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/security-groups-for-pods.html)
