@@ -9,8 +9,7 @@
 # こちらもおすすめ
 https://zenn.dev/yukionodera/articles/good-about-mise
 
-https://zenn.dev/yukionodera/articles/how-to-manage-dotfiles
+https://zenn.dev/yukionodera/articles/easy-share-tab-with-google-meet
 
-https://zenn.dev/yukionodera/articles/how-to-check-cwl-cost
-
+https://zenn.dev/yukionodera/articles/how-to-manage-images-with-obsidiann
 # 参考
