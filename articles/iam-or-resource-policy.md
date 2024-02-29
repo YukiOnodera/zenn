@@ -1,8 +1,8 @@
 ---
-title: アクセス制御にはIAM Policy とResource Based Policy どちらを使うべきか
+title: AWS S3 バケットへのアクセス権限管理：IAM Policy と S3 バケットポリシー、どちらを使うべき？
 yaml_title: iam-or-resource-policy
 created: 2024-01-17 17:17:23
-updated: 2024-01-17 17:35:36
+updated: 2024-02-29 17:08:45
 tags: 
 aliases: 
 emoji: 📝
@@ -14,6 +14,7 @@ topics:
   - Policy
 type: tech
 ---
+
 # はじめに
 
 AWS アカウント内で、一部のユーザーにのみ特定の S3 バケットに対して許可を与えたい！
