@@ -2,7 +2,7 @@
 title: Arc Browser の今後に関するリリース動画がワクワクしたのでご紹介！
 yaml_title: arc-2-released
 created: 2024-02-02 14:43:05
-updated: 2024-02-08 08:08:20
+updated: 2024-03-01 08:50:50
 tags: 
 aliases: 
 emoji: 🎃
@@ -20,6 +20,8 @@ type: tech
 [Meet Act II of Arc Browser | A browser that browses for you - YouTube](https://www.youtube.com/watch?v=WIeJF3kL5ng)
 
 それが、**A browser that browses for you** で、日本語に訳すと「**あなたのために検索するブラウザ**」です。
+
+> とりあえずダウンロードしてみたい方は [ここをクリック](https://arc.net/gift/32eb91ba)
 
 そして、この動画の中で新たに下記の 4 つの機能が発表されました。
 
@@ -105,6 +107,10 @@ Arc は毎週木曜日あたりにリリースノートを出してくれてい�
 最近は **Windows 版もリリースされた**ので、興味のある方はぜひ使ってみることをお勧めします。
 
 私は昨年の夏頃に Chrome から乗り換えたのですが、本当に便利なブラウザで、他のブラウザは今は考えられません。
+
+**ぜひ使ってみてください！**
+
+https://arc.net/gift/32eb91ba
 
 # こちらもおすすめ
 
