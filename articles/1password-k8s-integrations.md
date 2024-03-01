@@ -23,7 +23,7 @@ type: tech
 
 # 1Password Kubernetes Integrations
 
-まず、1Password Kubernetes Integrations を利用するにあたって、重要な Component が 3 つあります。
+はじめに、1Password Kubernetes Integrations を利用するにあたって、重要な Component が 3 つあります。
 
 - Connect Server
 - Operator
