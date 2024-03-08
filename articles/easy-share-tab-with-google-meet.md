@@ -2,7 +2,7 @@
 title: Google Meet の共有タブをワンクリックで切り替える方法！
 yaml_title: easy-share-tab-with-google-meet
 created: 2024-02-09 09:07:22
-updated: 2024-02-09 09:34:03
+updated: 2024-03-08 10:54:46
 tags: 
 aliases: 
 emoji: 🙆
@@ -20,6 +20,8 @@ type: tech
 Google Meet で**共有するタブをシームレスに切り替える**機能が Arc Browser に追加されたので、紹介します。
 
 https://arc.net/
+
+> とりあえずダウンロードしてみたい方は [ここをクリック](https://arc.net/gift/32eb91ba)
 
 # 現状の課題
 
@@ -50,6 +52,10 @@ Sidebar の中から、切り替えたいタブにカーソルを hover して�
 自分も試してみましたが、本当にワンクリックで完結します。**超便利。**
 
 **Arc Browser は最高に使い勝手がいい**ので、この機会に乗り換えることをお勧めします！
+
+**ぜひ使ってみてください！**
+
+https://arc.net/gift/32eb91ba
 
 # こちらもおすすめ
 

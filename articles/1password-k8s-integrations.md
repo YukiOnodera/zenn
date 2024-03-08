@@ -2,7 +2,7 @@
 title: Kubernetes 環境で 1Password を活用する方法
 yaml_title: 1password-k8s-integrations
 created: 2024-03-01 15:09:44
-updated: 2024-03-01 15:21:04
+updated: 2024-03-01 15:29:38
 tags: 
 aliases: 
 emoji: 📌
