@@ -2,7 +2,7 @@
 title: Spaceliftで実現するIaC自動化のためのポリシー設定ガイド
 yaml_title: spacelift-policies-recommended-settings
 created: 2024-03-22 15:59:34
-updated: 2024-03-22 16:45:19
+updated: 2024-03-22 16:51:01
 tags: 
 aliases: 
 emoji: 🌊
