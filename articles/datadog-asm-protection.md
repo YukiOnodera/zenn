@@ -2,7 +2,7 @@
 title: Datadog が提供するコスパ最強のアプリケーションセキュリティをご紹介します
 yaml_title: datadog-asm-protection
 created: 2024-04-12 15:33:16
-updated: 2024-04-12 16:24:38
+updated: 2024-04-12 16:25:27
 tags: 
 aliases: 
 emoji: 🍣
@@ -19,6 +19,8 @@ type: tech
 # はじめに
 
 今回は、Datadog ASM が提供する **Protection** 機能ついて紹介します。
+
+https://docs.datadoghq.com/security/application_security/threats/protection/
 
 Datadog ASM には、Protection 以外にも Traces, Signals, など Protection と連携した機能が複数ありますが、今回は Protection に絞って紹介しました。
 
