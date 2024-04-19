@@ -2,13 +2,17 @@
 title: 知らぬ間に ECR の料金が10倍以上になっていた
 yaml_title: aws-ecr-cost-debug
 created: 2024-04-19 15:39:18
-updated: 2024-04-19 15:59:24
+updated: 2024-04-19 16:00:40
 tags: 
 aliases: 
 emoji: 💭
 published: true
 published_at: 2024-04-22 10:00
-topics: 
+topics:
+  - ecr
+  - AWS
+  - Cost
+  - CostExplorer
 type: tech
 ---
 
@@ -70,7 +74,7 @@ https://zenn.dev/yukionodera/articles/how-to-manage-images-with-obsidiann
 
 # おわりに
 
-原因わかってよかったです。というより、Cost Explorer で気づけたことがラッキーでした。
+原因わかってよかったです。というより、Cost Explorer で気づけたことが**ラッキー**でした。
 
 クラウドは思わぬところで料金が上がっていることがあるので、気をつけないとですね。
 
