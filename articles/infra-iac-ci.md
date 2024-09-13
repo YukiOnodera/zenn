@@ -1,13 +1,18 @@
 ---
 title: "IaC の品質も自動で管理する時代: pre-commit と静的解析ツールの導入のススメ"
+yaml_title: infra-iac-ci
+created: 2024-09-06 16:45:05
+updated: 2024-09-13 17:41:32
+tags: 
+aliases: 
 emoji: 🐷
-type: tech
+published: true
+published_at: 2024-09-17 09:00
 topics:
   - Terraform
   - github
   - security
-published: true
-published_at: 2024-09-17 09:00
+type: tech
 ---
 # はじめに
 
@@ -34,9 +39,12 @@ https://pre-commit.com/
 - **terraform-docs** - Terraform のドキュメントを自動生成。
 
 :::message
+
 なお、この記事では OpenTofu を使用していますが、Terraform 環境でも同様の設定が可能です。Terraform を利用している場合は、"tofu" を "terraform" と読み替えてください。
+
 :::
-# pre-commit の導入手順
+
+# Pre-commit の導入手順
 
 ## 1. 設定ファイルの作成
 
@@ -83,7 +91,7 @@ repos:
 > terraform の場合はこちら
 > https://github.com/antonbabenko/pre-commit-terraform
 
-## 3. pre-commit のインストール
+## 3. Pre-commit のインストール
 
 次に、pre-commit をインストールして設定を反映させます。
 
@@ -93,6 +101,7 @@ pre-commit install
 ```
 
 # こちらもおすすめ
+
 https://zenn.dev/yukionodera/articles/good-about-mise
 
 https://zenn.dev/yukionodera/articles/datadog-asm-protection
@@ -100,6 +109,7 @@ https://zenn.dev/yukionodera/articles/datadog-asm-protection
 https://zenn.dev/yukionodera/articles/how-to-manage-images-with-obsidiann
 
 # おわりに
+
 pre-commit と静的解析ツールを導入することで、IaC に関する品質を自動的にチェックし、リスクを最小限に抑えることが可能です。これにより、コードの一貫性を保ち、セキュリティやコンプライアンスの強化にもつながります。
 
 今後も、この仕組みを活用して、より高品質な IaC コードを管理していきましょう!
