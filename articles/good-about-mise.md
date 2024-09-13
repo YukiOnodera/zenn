@@ -2,7 +2,7 @@
 title: 痒い所に手が届く。mise (旧rtx) の何がいいのか？
 yaml_title: good-about-mise
 created: 2024-01-25 15:33:58
-updated: 2024-02-09 08:51:34
+updated: 2024-09-13 17:55:00
 tags: 
 aliases: 
 emoji: 🕌
