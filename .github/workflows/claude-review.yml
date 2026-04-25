@@ -1,0 +1,43 @@
+name: Claude Article Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "articles/**"
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            このPRで変更されたZenn記事をレビューしてください。
+
+            ## チェック項目
+
+            ### 必須チェック（問題があれば必ず指摘）
+            - APIキー・パスワード・トークンなどの機密情報が含まれていないか
+            - 個人情報（メールアドレス・電話番号・住所など）が含まれていないか
+            - 社内限定情報・機密情報と思われる内容が含まれていないか
+
+            ### フォーマットチェック
+            - フロントマター（title, emoji, type, topics, published）が正しく設定されているか
+            - Markdownの構造（見出し階層など）が適切か
+            - コードブロックに言語指定があるか
+
+            ### 品質チェック
+            - 技術的な内容に誤りや誤解を招く表現がないか
+            - リンク切れや参照ミスがないか
+
+            ## 回答形式
+            - 日本語で回答してください
+            - 問題なければ「レビュー完了：問題ありません」と一言コメント
+            - 問題があれば、カテゴリ別に具体的な箇所と改善案を示してください
+          claude_args: "--max-turns 3"
