@@ -3,12 +3,13 @@
     "allow": [
       "Bash(npx zenn *)",
       "Bash(ls *)",
-      "Bash(cat *)"
+      "Bash(cat *)",
+      "Bash(git push *)",
+      "Bash(gh pr create *)"
     ],
     "deny": [
       "Bash(curl *)",
       "Bash(wget *)",
-      "Bash(git push *)",
       "Bash(npm publish *)",
       "Bash(rm -rf *)"
     ]

@@ -39,6 +39,23 @@ published: true   # false にすると下書き
 - 見出しは `#`（h1）から始め、階層を整える
 - 「はじめに」で背景・目的を説明し、「まとめ」で要点を締める構成が多い
 
+## 投稿フロー
+
+```shell
+# Substack（英語翻訳 → ブラウザで開く）
+bash scripts/post.sh articles/<slug>.md
+
+# Qiita（日本語記事をそのまま API 投稿）
+QIITA_TOKEN=xxx bash scripts/post.sh articles/<slug>.md --qiita
+
+# 両方
+bash scripts/post.sh articles/<slug>.md --all
+```
+
+- `qiita/state.json` に投稿済み記事の item_id を保存（再実行で更新になる）
+- Zenn 独自記法（`:::message`, `:::details`, `@[card]`）は自動変換される
+- ローカル画像（`/images/`）は Qiita では表示されないため手動アップロードが必要
+
 ## 重要なルール
 
 - `articles/` 内の Markdown ファイルのみ編集対象

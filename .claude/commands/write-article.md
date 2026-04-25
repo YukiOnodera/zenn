@@ -10,7 +10,7 @@
   |   4   | 執筆               | 自動          | articles/[slug].md に記事を作成               |
   |   5   | レビュー           | 自動          | ファクトチェック・読みやすさ改善後に概要を報告|
   |   6   | PR作成・Push       | 自動          | ブランチ作成・PR作成・URLを通知               |
-  |   7   | Substack 投稿準備  | 半自動        | ユーザーがPRマージ → 翻訳・HTML生成・投稿案内 |
+  |   7   | 外部プラットフォーム投稿 | 半自動  | ユーザーがPRマージ → Qiita自動投稿・翻訳生成・dev.to自動投稿・Substack投稿案内 |
 
   ユーザーの操作が必要なポイント：
     - Phase 0: 学んだことを入力（複数行OK）
@@ -111,7 +111,6 @@ published: false
 1. フロントマターを更新する
    ```yaml
    published: true
-   published_at: YYYY-MM-DD 19:00 +0900  # 翌日の19:00 JST
    ```
 2. ブランチを作成してPushし、PRを作成する
    ```sh
@@ -121,25 +120,30 @@ published: false
    git push origin article/[slug]
    gh pr create \
      --title "📝 [記事タイトル]" \
-     --body "## 概要\n[記事の内容を2〜3文で]\n\n**公開予定**: 翌日 19:00 JST\n\n---\n🤖 /write-article で自動生成"
+     --body "## 概要\n[記事の内容を2〜3文で]\n\n---\n🤖 /write-article で自動生成"
    ```
 3. 作成したPRのURLをユーザーに伝える
 
-## Phase 7: Substack 投稿準備
+## Phase 7: 外部プラットフォーム投稿
 
 PR作成後、ユーザーに伝える：
 
-「PRをマージしたら「マージしました」と教えてください。マージ後に英語翻訳とSubstack投稿の準備を自動で行います。」
+「PRをマージしたら「マージしました」と教えてください。マージ後にQiita・dev.to・Substackへの投稿を順に行います。」
 
 ユーザーがマージを確認したら、以下を自動実行する：
 
 ```sh
 git checkout main
 git pull
+
+# 1. Qiita に日本語記事を投稿
+bash scripts/post.sh articles/[slug].md --qiita
+
+# 2. 英語翻訳を生成してブラウザで開く（Substack用）
 bash scripts/post.sh articles/[slug].md
 ```
 
-実行後、ユーザーに案内する：
+翻訳生成後、ユーザーに案内する：
 
 「ブラウザが開きました。以下の手順でSubstackに投稿してください：
 
@@ -153,7 +157,10 @@ bash scripts/post.sh articles/[slug].md
 ユーザーが投稿完了を確認したら、以下を実行する：
 
 ```sh
-git add substack/
+# 3. dev.to に英語記事を投稿（英語版が生成済みなので投稿できる）
+bash scripts/post.sh articles/[slug].md --devto
+
+git add substack/ qiita/state.json devto/state.json
 git commit -m "add: [slug] English draft"
 git push
 ```

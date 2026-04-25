@@ -19,6 +19,7 @@ Claude Codeで `/write-article` を実行。以下の対話が発生する：
 | 4 執筆 | 自動 | なし |
 | 5 レビュー | 自動 | なし |
 | 6 PR作成 | 自動 | **PRをマージする**（GitHub） |
+| [zenn-multi-platform-auto-post-eng.md](./zenn-multi-platform-auto-post-eng.md) | articles/zenn-multi-platform-auto-post.md | ✓ | Pending | — |
 
 ### Step 2: ローカルに反映
 
