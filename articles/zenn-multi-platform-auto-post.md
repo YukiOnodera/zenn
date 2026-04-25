@@ -8,7 +8,7 @@ topics:
   - devto
   - Substack
   - Python
-published: true
+published: false
 ---
 
 # はじめに
