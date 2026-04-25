@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font-family: Georgia, serif; max-width: 680px; margin: 40px auto; padding: 0 20px; line-height: 1.7; color: #222; }
+  h1, h2, h3 { font-family: -apple-system, sans-serif; }
+  pre { background: #f4f4f4; padding: 16px; border-radius: 4px; overflow-x: auto; }
+  code { font-family: "Courier New", monospace; font-size: 0.9em; }
+  pre code { background: none; }
+  hr { border: none; border-top: 1px solid #ddd; margin: 2em 0; }
+</style>
+</head>
+<body>
+<h1>Why Datadog Uses Two Agents in Kubernetes: Node Agent vs Cluster Agent</h1>
+<p>If you've set up Datadog monitoring in a Kubernetes cluster, you've probably noticed there are <em>two</em> kinds of agents running: the <strong>Node Agent</strong> and the <strong>Cluster Agent</strong>. When I first encountered this, my reaction was: "Why do we need two? What's the difference?"</p>
+<p>Once I understood the design intent, it all clicked. This post explains the two-tier architecture clearly — if you've had the same question, this is for you.</p>
+<hr />
+<h2>The Overall Architecture</h2>
+<p>Datadog's Kubernetes monitoring is built on two components:</p>
+<pre><code>┌─────────────────────────────────────────┐
+│               Kubernetes Cluster        │
+│                                         │
+│  ┌──────────┐  ┌──────────┐             │
+│  │Node Agent│  │Node Agent│  ...        │  ← DaemonSet (one per node)
+│  └────┬─────┘  └────┬─────┘             │
+│       │              │                  │
+│       └──────┬───────┘                  │
+│              ↓                          │
+│      ┌───────────────┐                  │
+│      │ Cluster Agent │                  │  ← Deployment (one per cluster)
+│      └───────┬───────┘                  │
+│              ↓                          │
+│       Kubernetes API Server             │
+└─────────────────────────────────────────┘
+</code></pre>
+<p>Node Agents collect data from each individual node, while the Cluster Agent handles cluster-wide information centrally.</p>
+<hr />
+<h2>What the Node Agent Does</h2>
+<p>The <strong>Node Agent</strong> runs as a <code>DaemonSet</code> — one instance per node in the cluster. Its scope is strictly limited to <em>that node</em>. It collects:</p>
+<ul>
+<li>Container metrics from pods running on that node</li>
+<li>Application logs and traces</li>
+</ul>
+<p>After collecting data, it enriches it with cluster-wide metadata (Pod names, Service names, labels, etc.) received from the Cluster Agent, then ships everything to Datadog.</p>
+<p>The key point: <strong>Node Agents never talk directly to the Kubernetes API Server.</strong> All cluster-wide information comes through the Cluster Agent.</p>
+<hr />
+<h2>What the Cluster Agent Does</h2>
+<p>The <strong>Cluster Agent</strong> runs as a <code>Deployment</code> — typically just one instance per cluster. Unlike the Node Agent, it has a bird's-eye view of the entire cluster.</p>
+<p>Its main responsibilities:</p>
+<ul>
+<li><strong>Proxying API Server access</strong>: Fetches cluster-wide metadata (Pods, Services, Deployments, etc.) every 30 seconds and caches it</li>
+<li><strong>Distributing metadata to Node Agents</strong>: Responds to Node Agent queries with cached metadata</li>
+<li><strong>Collecting Kubernetes events</strong>: Gathers lifecycle events (Pod restarts, node status changes, etc.) and forwards them to Datadog</li>
+</ul>
+<hr />
+<h2>Why Two Tiers? The Real Reason</h2>
+<p>This was the key insight for me.</p>
+<p><strong>What if every Node Agent talked directly to the API Server?</strong></p>
+<p>Imagine a cluster with 200 nodes. That's 200 Node Agents each periodically hitting the API Server with requests. At scale, this becomes a serious load problem — and could destabilize the cluster itself.</p>
+<p>The Cluster Agent exists to solve exactly this:</p>
+<pre><code>Before (Node Agents hit API Server directly):
+Node Agent × 200 → API Server  ← load explodes
+
+After (via Cluster Agent):
+Node Agent × 200 → Cluster Agent → API Server  ← single connection to API Server
+                         ↑
+                    distributes cached metadata
+</code></pre>
+<p>The Cluster Agent acts as a "representative" — it fetches and caches data from the API Server, then serves that cache to all Node Agents. This means <strong>adding more nodes doesn't increase load on the API Server</strong>.</p>
+<p>There's a security benefit too: Node Agents no longer need direct API Server access, which means simpler, more minimal RBAC configurations.</p>
+<hr />
+<h2>Wrapping Up</h2>
+<p>The "why are there two agents?" question answers itself once you think about scale. The two-tier design keeps API Server load flat as clusters grow, and simplifies permissions at the same time.</p>
+<p>Understanding this architecture makes cluster monitoring diagrams much easier to read — and helps you debug issues when something goes wrong.</p>
+<hr />
+<p><strong>References</strong></p>
+<ul>
+<li><a href="https://docs.datadoghq.com/containers/cluster_agent/">Cluster Agent for Kubernetes | Datadog Docs</a></li>
+<li><a href="https://docs.datadoghq.com/containers/cluster_agent/setup/">Set Up the Datadog Cluster Agent | Datadog Docs</a></li>
+<li><a href="https://www.datadoghq.com/blog/datadog-cluster-agent/">Introducing the Datadog Cluster Agent | Datadog Blog</a></li>
+</ul>
+<hr />
+<p><em>If you found this useful, subscribe for more Datadog &amp; Observability deep-dives. New posts every week.</em></p>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font-family: Georgia, serif; max-width: 680px; margin: 40px auto; padding: 0 20px; line-height: 1.7; color: #222; }
+  h1, h2, h3 { font-family: -apple-system, sans-serif; }
+  pre { background: #f4f4f4; padding: 16px; border-radius: 4px; overflow-x: auto; }
+  code { font-family: "Courier New", monospace; font-size: 0.9em; }
+  pre code { background: none; }
+  hr { border: none; border-top: 1px solid #ddd; margin: 2em 0; }
+</style>
+</head>
+<body>
+<h1>Why Setting Up Datadog on EKS Is Trickier Than You'd Expect</h1>
+<h1>Introduction</h1>
+<p>Deploying Datadog on Amazon EKS sounds straightforward at first — after all, Datadog has solid Kubernetes support and AWS is one of its most popular integrations. In practice, however, I ran into more friction than I expected when getting Datadog up and running on EKS, especially once Fargate entered the picture. The official documentation is comprehensive, but it's scattered across multiple pages, and there isn't a single place that lays out the full picture for EKS users.</p>
+<p>This post organizes what I learned, with a focus on the gotchas that cost me time. If you're planning a Datadog rollout on EKS — particularly with mixed EC2 and Fargate workloads — hopefully this saves you some headaches.</p>
+<h1>Overview</h1>
+<p>When deploying Datadog on EKS, you need to install the Datadog Agent differently depending on whether you're running EKS on EC2 or EKS on Fargate.</p>
+<p>If you're running a mixed workload that uses both EC2 and Fargate, you'll need to install an Agent suited to each workload type.</p>
+<h2>Datadog Agent on EKS with EC2</h2>
+<p>In this configuration, just like with regular EC2, you need one Agent per node.</p>
+<p>For EKS specifically, you basically follow the instructions in the <a href="https://docs.datadoghq.com/ja/containers/kubernetes/">Kubernetes</a> documentation.</p>
+<blockquote>
+<p>The recommended installation method is to use the Operator.</p>
+</blockquote>
+<h2>Datadog Agent on EKS with Fargate</h2>
+<p>This configuration is similar to ECS tasks — you need to deploy the Agent as a sidecar to each Pod.</p>
+<p>Datadog provides official documentation at <a href="https://docs.datadoghq.com/ja/integrations/eks_fargate/#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB">Amazon EKS on AWS Fargate</a>, so it's best to follow that guide.</p>
+<p>In addition, if you're running a mixed workload and want to use the Datadog Cluster Agent, extra configuration is required. The setup is also described in the <a href="https://docs.datadoghq.com/ja/integrations/eks_fargate/#cluster-agent-%E3%81%BE%E3%81%9F%E3%81%AF-cluster-checks-runner-%E3%81%AE%E5%AE%9F%E8%A1%8C">Amazon EKS on AWS Fargate</a> docs.</p>
+<h1>Things to Watch Out For</h1>
+<ol>
+<li><strong>When using the Datadog Cluster Agent, make sure it's deployed on an EC2 node — not on Fargate.</strong> I missed this and spent a fair amount of time troubleshooting before realizing the issue.</li>
+<li><strong>Environment variable settings, including tags, must be configured separately for each Agent.</strong> If you're managing things via IaC this can feel redundant, but it's unavoidable.</li>
+<li><strong>If you're using Fargate, costs scale with the number of Pods.</strong> Estimate your costs in advance before scaling up.</li>
+</ol>
+<h1>Conclusion</h1>
+<p>Deploying the Datadog Agent on EKS gets surprisingly complex once you account for different workload types.</p>
+<p>I couldn't find a single place in the official documentation that covered the full picture in a structured way, so it was useful to organize my own notes here.</p>
+<h1>References</h1>
+<p><a href="https://docs.datadoghq.com/ja/containers/kubernetes/">Kubernetes</a></p>
+<p><a href="https://docs.datadoghq.com/ja/integrations/eks_fargate/#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB">Amazon EKS on AWS Fargate</a></p>
+<p><em>Subscribe for more Datadog &amp; Observability deep-dives.</em></p>
+</body>
+</html>

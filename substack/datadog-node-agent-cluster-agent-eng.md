@@ -1,8 +1,8 @@
 ---
 zenn_source: articles/datadog-node-agent-cluster-agent.md
 published_zenn: false
-substack_status: draft
-substack_url: ""
+substack_status: published
+substack_url: "https://open.substack.com/pub/odryk/p/why-datadog-uses-two-agents-in-kubernetes"
 ---
 
 # Why Datadog Uses Two Agents in Kubernetes: Node Agent vs Cluster Agent

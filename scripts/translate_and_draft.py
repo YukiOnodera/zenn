@@ -10,6 +10,7 @@ import os
 import re
 import anthropic
 import yaml
+import markdown as md_lib
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent.parent
@@ -89,6 +90,30 @@ substack_url: ""
 {body}
 """)
     print(f"Saved: {eng_path.relative_to(REPO_ROOT)}")
+
+    # Generate HTML for copy-pasting into Substack
+    body_html = md_lib.markdown(body, extensions=["fenced_code", "tables", "nl2br"])
+    html_path = SUBSTACK_DIR / f"{slug}-eng.html"
+    html_path.write_text(f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body {{ font-family: Georgia, serif; max-width: 680px; margin: 40px auto; padding: 0 20px; line-height: 1.7; color: #222; }}
+  h1, h2, h3 {{ font-family: -apple-system, sans-serif; }}
+  pre {{ background: #f4f4f4; padding: 16px; border-radius: 4px; overflow-x: auto; }}
+  code {{ font-family: 'Courier New', monospace; font-size: 0.9em; }}
+  pre code {{ background: none; }}
+  hr {{ border: none; border-top: 1px solid #ddd; margin: 2em 0; }}
+</style>
+</head>
+<body>
+<h1>{title}</h1>
+{body_html}
+</body>
+</html>
+""")
+    print(f"Saved: {html_path.relative_to(REPO_ROOT)}")
 
 
 def update_readme(slug: str, source_name: str):
