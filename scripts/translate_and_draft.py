@@ -27,10 +27,16 @@ def parse_frontmatter(content: str) -> tuple[dict, str]:
     return meta, parts[2].strip()
 
 
+def strip_recommendations(body: str) -> str:
+    """Remove the Zenn-specific '# こちらもおすすめ' section."""
+    return re.sub(r"\n# こちらもおすすめ\n[\s\S]*$", "", body).rstrip()
+
+
 def translate_with_claude(source_content: str) -> tuple[str, str]:
     """Translate article using Claude. Returns (title_en, body_md)."""
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
     meta, body = parse_frontmatter(source_content)
+    body = strip_recommendations(body)
     title_ja = meta.get("title", "")
 
     message = client.messages.create(
