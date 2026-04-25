@@ -81,11 +81,21 @@ TITLE: <English title>
     return title_en, body_en
 
 
-def make_session(cookie: str) -> requests.Session:
+def make_session(cookie: str, pub_url: str) -> requests.Session:
     """Create an authenticated session using a Substack session cookie (substack.sid)."""
+    from urllib.parse import urlparse
+    parsed = urlparse(pub_url.rstrip("/"))
+    origin = f"{parsed.scheme}://{parsed.netloc}"
+
     session = requests.Session()
-    session.headers.update({"User-Agent": "Mozilla/5.0", "Content-Type": "application/json"})
+    session.headers.update({
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+        "Content-Type": "application/json",
+        "Origin": origin,
+        "Referer": f"{origin}/",
+    })
     session.cookies.set("substack.sid", cookie, domain=".substack.com")
+    session.cookies.set("substack.sid", cookie, domain=parsed.netloc)
     return session
 
 
@@ -135,13 +145,26 @@ def update_readme(slug: str, source_name: str, draft_url: str):
     eng_file = f"{slug}-eng.md"
     new_row = f"| [{eng_file}](./{eng_file}) | articles/{source_name} | ✓ | Draft | {draft_url or '—'} |"
 
-    # Insert before the existing first data row
-    content = re.sub(
-        r"(\| \[.*?\]\(.*?\) \| articles/)",
-        f"{new_row}\n| [",
-        content,
-        count=1,
+    # Append row before the blank line after the table header separator
+    content = content.replace(
+        "|----|",
+        f"|----|",
+        1,
     )
+    # Append new row at end of table (before the first blank line after the header)
+    lines = content.splitlines()
+    insert_at = None
+    in_table = False
+    for i, line in enumerate(lines):
+        if line.startswith("|---"):
+            in_table = True
+            continue
+        if in_table and not line.startswith("|"):
+            insert_at = i
+            break
+    if insert_at is not None:
+        lines.insert(insert_at, new_row)
+        content = "\n".join(lines) + "\n"
     readme.write_text(content)
 
 
@@ -175,7 +198,7 @@ def process_file(filepath: str):
     if cookie and pub_url:
         try:
             print("  → Posting to Substack ...")
-            session = make_session(cookie)
+            session = make_session(cookie, pub_url)
             draft_url = create_substack_draft(session, pub_url, title_en, body_en)
             print(f"  → Draft: {draft_url}")
         except Exception as e:

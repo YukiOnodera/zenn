@@ -9,13 +9,12 @@ English translations of Zenn articles, adapted for Substack.
 | File | Zenn Source | Zenn Published | Substack Status | Substack URL |
 |------|-------------|----------------|-----------------|--------------|
 | [20231215-ddagent-eks-eng.md](./20231215-ddagent-eks-eng.md) | articles/20231215-ddagent-eks.md | ✓ | Draft | — |
-| [datadog-node-agent-cluster-agent.md | Draft | Draft | — |
+| [datadog-node-agent-cluster-agent-eng.md](./datadog-node-agent-cluster-agent-eng.md) | articles/datadog-node-agent-cluster-agent.md | Draft | Draft | — |
 
 ## Next Candidates (Priority Order)
 
-1. `20231215-ddagent-eks.md` — Datadog on EKS (high demand in English community)
-2. `datadog-asm-protection.md` — Datadog ASM Protection
-3. `datadog-securities-services.md` — Datadog ASM/SCA/IAST
+1. `datadog-asm-protection.md` — Datadog ASM Protection
+2. `datadog-securities-services.md` — Datadog ASM/SCA/IAST
 
 ## Workflow
 
