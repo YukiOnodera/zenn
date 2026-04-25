@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font-family: Georgia, serif; max-width: 680px; margin: 40px auto; padding: 0 20px; line-height: 1.7; color: #222; }
+  h1, h2, h3 { font-family: -apple-system, sans-serif; }
+  pre { background: #f4f4f4; padding: 16px; border-radius: 4px; overflow-x: auto; }
+  code { font-family: 'Courier New', monospace; font-size: 0.9em; }
+  pre code { background: none; }
+  hr { border: none; border-top: 1px solid #ddd; margin: 2em 0; }
+</style>
+</head>
+<body>
+<h1>Cross-Posting Zenn Articles to Qiita, dev.to, and Substack with a Single Script</h1>
+<h1>Introduction</h1>
+<p>In this post, I'll walk through the workflow I built to automatically cross-post articles I write on Zenn (a Japanese tech blogging platform) to Qiita, dev.to, and Substack.</p>
+<p>If you write on multiple platforms, you've probably felt the friction: every time you publish a post, you end up copy-pasting it into two or three different editors, re-formatting things that don't render the same way, and tweaking tags for each service. It's a small chore, but it adds up — and it's exactly the kind of repetitive task that should be scripted away.</p>
+<p>Since each platform exposes (or at least tolerates) some form of programmatic publishing, I wrapped everything in a single <code>post.sh</code> so I can fan out a single Markdown file to all destinations with one command. Here's how it's put together.</p>
+<h1>Overall Flow</h1>
+<p>I split the destinations into three categories:</p>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Language</th>
+<th>Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Qiita</td>
+<td>Japanese (Zenn original)</td>
+<td>Fully automated via API</td>
+</tr>
+<tr>
+<td>dev.to</td>
+<td>English (translated with Claude)</td>
+<td>Fully automated via API</td>
+</tr>
+<tr>
+<td>Substack</td>
+<td>English (same as above)</td>
+<td>Semi-automated (copy &amp; paste)</td>
+</tr>
+</tbody>
+</table>
+<p>Everything is invoked through <code>post.sh</code>:</p>
+<pre><code class="language-sh"># Qiita only
+bash scripts/post.sh articles/&lt;slug&gt;.md --qiita
+
+# Substack only (translate + open in browser)
+bash scripts/post.sh articles/&lt;slug&gt;.md
+
+# Everything
+bash scripts/post.sh articles/&lt;slug&gt;.md --all
+</code></pre>
+<h1>Posting to Qiita (Japanese, as-is)</h1>
+<p>I use the <strong>Qiita API v2</strong> and POST the Zenn Markdown directly.</p>
+<pre><code class="language-python">import json, urllib.request
+
+payload = {
+    &quot;title&quot;: meta.get(&quot;title&quot;, slug),
+    &quot;body&quot;: qiita_body,
+    &quot;tags&quot;: [{&quot;name&quot;: t} for t in topics],
+    &quot;private&quot;: False,
+}
+req = urllib.request.Request(
+    &quot;https://qiita.com/api/v2/items&quot;,
+    data=json.dumps(payload).encode(),
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;, &quot;Content-Type&quot;: &quot;application/json&quot;},
+    method=&quot;POST&quot;,
+)
+urllib.request.urlopen(req)
+</code></pre>
+<p>The <code>topics</code> field in Zenn's frontmatter can be reused as Qiita tags directly, so no conversion is needed.</p>
+<h2>Auto-converting Zenn-specific syntax</h2>
+<p>Qiita doesn't understand Zenn's custom Markdown extensions, so I rewrite them on the fly:</p>
+<table>
+<thead>
+<tr>
+<th>Zenn syntax</th>
+<th>Converted to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:::message</code></td>
+<td><code>&gt;</code> blockquote</td>
+</tr>
+<tr>
+<td><code>:::message alert</code></td>
+<td><code>&gt; ⚠️</code> blockquote</td>
+</tr>
+<tr>
+<td><code>:::details Title</code></td>
+<td><code>**Title**</code> + body</td>
+</tr>
+<tr>
+<td><code>@[card](url)</code></td>
+<td>URL only</td>
+</tr>
+</tbody>
+</table>
+<h2>Tracking posts with state.json</h2>
+<p>I track which articles have already been posted in <code>qiita/state.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;my-article-slug&quot;: {
+    &quot;item_id&quot;: &quot;abc123&quot;,
+    &quot;url&quot;: &quot;https://qiita.com/items/abc123&quot;
+  }
+}
+</code></pre>
+<p>If you re-run the script, it looks up the <code>item_id</code> and switches to a PATCH (update), so the operation is idempotent.</p>
+<h1>Posting to dev.to (English version)</h1>
+<p>For the English version, I use <code>substack/&lt;slug&gt;-eng.md</code>, which is pre-translated with Claude.</p>
+<pre><code class="language-python">import json, urllib.request
+
+payload = {
+    &quot;article&quot;: {
+        &quot;title&quot;: title,
+        &quot;body_markdown&quot;: body,
+        &quot;published&quot;: True,
+        &quot;tags&quot;: tags,
+        &quot;canonical_url&quot;: f&quot;https://zenn.dev/{zenn_username}/articles/{slug}&quot;,
+    }
+}
+req = urllib.request.Request(
+    &quot;https://dev.to/api/articles&quot;,
+    data=json.dumps(payload).encode(),
+    headers={&quot;api-key&quot;: api_key, &quot;Content-Type&quot;: &quot;application/json&quot;},
+    method=&quot;POST&quot;,
+)
+urllib.request.urlopen(req)
+</code></pre>
+<h2>SEO with canonical_url</h2>
+<p>By setting <code>canonical_url</code> to the Zenn article URL, dev.to tells search engines, "this is a republished version." This avoids the duplicate-content penalty, so always set it when cross-posting.</p>
+<p>:::message<br />
+dev.to allows up to 4 tags, and they must contain only alphanumerics and underscores. The script normalizes Zenn's <code>topics</code> automatically.<br />
+:::</p>
+<h1>Substack (semi-manual)</h1>
+<p>Substack doesn't currently expose a public API, so full automation isn't really feasible. Instead, I do the following:</p>
+<ol>
+<li>Claude converts the Markdown to HTML, which is then opened in a browser</li>
+<li><code>Cmd+A</code> → <code>Cmd+C</code> to copy</li>
+<li>Paste into Substack's New Article editor → Publish</li>
+</ol>
+<p>It's not zero-effort, but Substack's editor accepts pasted HTML cleanly, so the formatting carries over without breaking.</p>
+<h1>Managing credentials with .env</h1>
+<p>Tokens for each service live in a single <code>.env</code> file:</p>
+<p><code>sh:.env.example
+ANTHROPIC_API_KEY=sk-ant-...
+QIITA_TOKEN=...
+DEV_TO_API_KEY=...
+ZENN_USERNAME=...</code></p>
+<p><code>post.sh</code> does a <code>source .env</code> at the top, so I don't have to export them every time. The file is added to <code>.gitignore</code> to prevent accidental commits.</p>
+<h1>Wrapping Up</h1>
+<p>As long as a platform exposes an API, adding it as a publishing destination is surprisingly low-effort.</p>
+<p>Qiita and dev.to are now fully automated, so once I've finished writing, all I do is run <code>bash scripts/post.sh articles/&lt;slug&gt;.md --all</code>. I'll keep hoping Substack opens up an API someday, but for now this hybrid flow does the job.</p>
+<h1>You Might Also Like</h1>
+<p>https://zenn.dev/yukionodera/articles/feat-pragent</p>
+<p>https://zenn.dev/yukionodera/articles/aws-ecr-cost-debug</p>
+<p>https://zenn.dev/yukionodera/articles/chezmoi-use-template</p>
+<p><em>Subscribe for more Datadog &amp; Observability deep-dives.</em></p>
+</body>
+</html>
