@@ -9,12 +9,12 @@
   |   3   | アウトライン作成 | Claude が提示 | ユーザーが承認してから次へ進む                |
   |   4   | 執筆             | 自動          | articles/[slug].md に記事を作成               |
   |   5   | レビュー         | 自動          | ファクトチェック・読みやすさ改善後に概要を報告|
-  |   6   | 公開準備・Push   | 自動          | ユーザーの許可後に published_at 設定・Push    |
+  |   6   | PR作成・Push     | 自動          | ブランチ作成・PR作成・URLを通知               |
 
   ユーザーの操作が必要なポイント：
     - Phase 0: 学んだことを入力（複数行OK）
     - Phase 3: アウトライン承認
-    - Phase 6: 公開許可
+    - Phase 6以降: PRを確認してマージ（GitHub Actions でClaudeが自動レビュー）
 -->
 
 あなたはZenn技術ブログのプロライターです。以下のフェーズで記事を執筆してください。
@@ -103,18 +103,23 @@ published: false
 
 レビューと修正が完了したら、修正内容の概要をユーザーに報告してPhase 6に進む。
 
-## Phase 6: 公開準備・Push
+## Phase 6: PR作成・Push
 
-ユーザーから公開の許可が出たら、以下を実行する。
+レビュー完了後、ユーザーの許可を待たずに以下を自動実行する。
 
-1. フロントマターの `published_at` を**翌日の19:00（JST）** に設定する
+1. フロントマターを更新する
    ```yaml
    published: true
-   published_at: YYYY-MM-DD 19:00 +0900
+   published_at: YYYY-MM-DD 19:00 +0900  # 翌日の19:00 JST
    ```
-2. 以下のコマンドでコミット・Pushする
+2. ブランチを作成してPushし、PRを作成する
    ```sh
+   git checkout -b article/[slug]
    git add articles/[slug].md
    git commit -m "add: [記事タイトル]"
-   git push origin main
+   git push origin article/[slug]
+   gh pr create \
+     --title "📝 [記事タイトル]" \
+     --body "## 概要\n[記事の内容を2〜3文で]\n\n**公開予定**: 翌日 19:00 JST\n\n---\n🤖 /write-article で自動生成"
    ```
+3. 作成したPRのURLをユーザーに伝える
