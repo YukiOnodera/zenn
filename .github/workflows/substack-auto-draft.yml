@@ -1,0 +1,63 @@
+name: Translate & Draft to Substack
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "articles/*.md"
+  workflow_dispatch:
+    inputs:
+      article_file:
+        description: "対象記事のパス (例: articles/20231215-ddagent-eks.md)"
+        required: true
+        type: string
+
+jobs:
+  translate-and-draft:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Detect new published articles
+        id: detect
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            NEW_FILES="${{ inputs.article_file }}"
+          else
+            NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- 'articles/*.md' | tr '\n' ' ')
+          fi
+          echo "files=$NEW_FILES" >> $GITHUB_OUTPUT
+          echo "Detected: $NEW_FILES"
+
+      - name: Set up Python
+        if: steps.detect.outputs.files != ''
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        if: steps.detect.outputs.files != ''
+        run: pip install -r scripts/requirements.txt
+
+      - name: Translate and draft to Substack
+        if: steps.detect.outputs.files != ''
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SUBSTACK_SESSION_COOKIE: ${{ secrets.SUBSTACK_SESSION_COOKIE }}
+          SUBSTACK_PUBLICATION_URL: ${{ secrets.SUBSTACK_PUBLICATION_URL }}
+          NEW_FILES: ${{ steps.detect.outputs.files }}
+        run: python scripts/translate_and_draft.py
+
+      - name: Commit translated drafts
+        if: steps.detect.outputs.files != ''
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add substack/
+          git diff --staged --quiet || git commit -m "auto: add English Substack draft"
+          git push
