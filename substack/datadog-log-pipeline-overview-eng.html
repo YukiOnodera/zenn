@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font-family: Georgia, serif; max-width: 680px; margin: 40px auto; padding: 0 20px; line-height: 1.7; color: #222; }
+  h1, h2, h3 { font-family: -apple-system, sans-serif; }
+  pre { background: #f4f4f4; padding: 16px; border-radius: 4px; overflow-x: auto; }
+  code { font-family: 'Courier New', monospace; font-size: 0.9em; }
+  pre code { background: none; }
+  hr { border: none; border-top: 1px solid #ddd; margin: 2em 0; }
+</style>
+</head>
+<body>
+<h1>Inside Datadog's Log Pipeline: How "Logging without Limits" Actually Works</h1>
+<h1>Introduction</h1>
+<p>In this post, I want to walk through how Datadog processes logs internally — from raw ingestion all the way to indexed, queryable data.</p>
+<p>If you've spent time clicking around Datadog's log management UI, you've probably noticed something satisfying: raw, messy log lines gradually get enriched and structured as they flow through the pipeline. It's a really elegant design, and once you understand the order in which things happen, it becomes clear why Datadog can offer both cost control and deep observability at the same time. Let me break it down.</p>
+<p>:::message<br />
+This article focuses on the main steps I studied this time around. In practice, there are more detailed processes — sensitive data scanning, Error Tracking, Live Tail, and so on. For the full picture, please refer to the <a href="https://docs.datadoghq.com/logs/">official documentation | Datadog</a>.<br />
+:::</p>
+<h1>The Overall Log Processing Flow</h1>
+<p>Datadog's log management is built around a design philosophy called <strong>Logging without Limits™</strong>, which lets you independently control "ingestion," "storage," and "analysis."</p>
+<p>The high-level flow looks like this:</p>
+<pre><code>Ingest
+  ↓
+Pipelines (Parse &amp; Enrich)
+  ↓
+Generate Metrics
+  ↓
+Exclusion Filters
+  ↓
+Index
+</code></pre>
+<h1>Walking Through Each Step</h1>
+<h2>Ingest</h2>
+<p>First, logs are collected into Datadog from a wide variety of sources.</p>
+<p>Datadog offers <strong>over 500 log integrations</strong>, covering AWS, GCP, Kubernetes, and all kinds of middleware. I was honestly surprised by just how many there are.</p>
+<h2>Pipelines (Parse &amp; Enrich)</h2>
+<p>Once raw logs are ingested, they pass through <strong>pipelines</strong> that structure and enrich them (adding extra information).</p>
+<p>Using processors like the <strong>Grok parser</strong>, unstructured text logs get broken down into fields, and additional attributes can be attached.</p>
+<pre><code># Before parsing (raw log)
+2024-04-27 12:00:00 ERROR [app] Connection timeout: host=db01 duration=5002ms
+
+# After parsing (structured)
+{
+  &quot;timestamp&quot;: &quot;2024-04-27T12:00:00Z&quot;,
+  &quot;level&quot;: &quot;ERROR&quot;,
+  &quot;service&quot;: &quot;app&quot;,
+  &quot;message&quot;: &quot;Connection timeout&quot;,
+  &quot;host&quot;: &quot;db01&quot;,
+  &quot;duration_ms&quot;: 5002
+}
+</code></pre>
+<p>Watching unformatted logs get cleaned up and enriched is honestly the most fun part of this whole process to observe.</p>
+<h2>Generate Metrics</h2>
+<p>This is the most interesting part of the Logging without Limits design.</p>
+<p><strong>Log-based metrics are generated <em>before</em> exclusion filters run.</strong></p>
+<p>In other words, even for logs that will later be discarded and never make it to the index, you can still retain statistical information as metrics.</p>
+<p>:::message<br />
+The benefit of this design is that even if you're aggressively dropping logs to keep costs down, you still get reliable metrics on trends, error rates, and the like.<br />
+:::</p>
+<h2>Exclusion Filters</h2>
+<p>After metric generation, <strong>exclusion filters</strong> decide which logs are <em>not</em> saved to the index.</p>
+<p>Debug logs, high-volume boilerplate logs, and anything that isn't needed for ongoing search can be dropped here, helping keep indexing costs under control.</p>
+<h2>Index</h2>
+<p>Logs that pass through the filters are finally stored in the <strong>Index</strong>. Once a log is indexed, you can use Datadog's UI for facet search and analysis.</p>
+<h1>Why This Ordering Matters</h1>
+<p>The key insight in this processing order is the design principle: <strong>"extract metrics before throwing logs away."</strong></p>
+<p>Log storage costs balloon quickly, so indexing every single log is rarely realistic. But if you just drop logs, you lose visibility into trends within the discarded data.</p>
+<p>Logging without Limits solves this by placing metric generation <em>before</em> exclusion filters. You can lower storage costs while still maximizing observability.</p>
+<h1>Wrap-up</h1>
+<p>Datadog's log pipeline has clearly separated stages: ingest, parse, generate metrics, exclude, and index. The design choice to run metric generation before exclusion filters strikes me as especially important — it's what allows you to balance cost and observability rather than trade one off against the other.</p>
+<p><em>Subscribe for more Datadog &amp; Observability deep-dives.</em></p>
+</body>
+</html>

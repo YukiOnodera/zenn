@@ -20,6 +20,7 @@ Claude Codeで `/write-article` を実行。以下の対話が発生する：
 | 5 レビュー | 自動 | なし |
 | 6 PR作成 | 自動 | **PRをマージする**（GitHub） |
 | [zenn-multi-platform-auto-post-eng.md](./zenn-multi-platform-auto-post-eng.md) | articles/zenn-multi-platform-auto-post.md | ✓ | Pending | — |
+| [datadog-log-pipeline-overview-eng.md](./datadog-log-pipeline-overview-eng.md) | articles/datadog-log-pipeline-overview.md | ✓ | Pending | — |
 
 ### Step 2: ローカルに反映
 

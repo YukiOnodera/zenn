@@ -2,5 +2,9 @@
   "zenn-multi-platform-auto-post": {
     "article_id": 3549741,
     "url": "https://dev.to/yukionodera/cross-posting-zenn-articles-to-qiita-devto-and-substack-with-a-single-script-46oa"
+  },
+  "datadog-log-pipeline-overview": {
+    "article_id": 3556645,
+    "url": "https://dev.to/yukionodera/inside-datadogs-log-pipeline-how-logging-without-limits-actually-works-50od"
   }
 }
