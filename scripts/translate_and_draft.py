@@ -32,11 +32,41 @@ def strip_recommendations(body: str) -> str:
     return re.sub(r"\n# こちらもおすすめ\n[\s\S]*$", "", body).rstrip()
 
 
+def convert_zenn_syntax(body: str) -> str:
+    """Convert Zenn-specific syntax to standard Markdown before translation."""
+    body = re.sub(
+        r":::message alert\n(.*?):::",
+        lambda m: "\n".join(
+            f"> ⚠️ {line}" if i == 0 else f"> {line}"
+            for i, line in enumerate(m.group(1).strip().splitlines())
+        ),
+        body,
+        flags=re.DOTALL,
+    )
+    body = re.sub(
+        r":::message\n(.*?):::",
+        lambda m: "\n".join(f"> {line}" for line in m.group(1).strip().splitlines()),
+        body,
+        flags=re.DOTALL,
+    )
+    body = re.sub(
+        r":::details (.+?)\n(.*?):::",
+        lambda m: f"<details><summary>{m.group(1).strip()}</summary>\n\n{m.group(2).strip()}\n\n</details>",
+        body,
+        flags=re.DOTALL,
+    )
+    body = re.sub(r"@\[card\]\((.+?)\)", r"\1", body)
+    body = re.sub(r"@\[tweet\]\((.+?)\)", r"\1", body)
+    body = re.sub(r"@\[youtube\]\((.+?)\)", r"https://www.youtube.com/watch?v=\1", body)
+    return body
+
+
 def translate_with_claude(source_content: str) -> tuple[str, str]:
     """Translate article using Claude. Returns (title_en, body_md)."""
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
     meta, body = parse_frontmatter(source_content)
     body = strip_recommendations(body)
+    body = convert_zenn_syntax(body)
     title_ja = meta.get("title", "")
 
     message = client.messages.create(
