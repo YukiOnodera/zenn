@@ -6,7 +6,8 @@ topics:
   - Datadog
   - Kubernetes
   - monitoring
-published: false
+published: true
+published_at: 2026-04-29 19:00
 ---
 
 ## はじめに
