@@ -21,6 +21,7 @@ Claude Codeで `/write-article` を実行。以下の対話が発生する：
 | 6 PR作成 | 自動 | **PRをマージする**（GitHub） |
 | [zenn-multi-platform-auto-post-eng.md](./zenn-multi-platform-auto-post-eng.md) | articles/zenn-multi-platform-auto-post.md | ✓ | Pending | — |
 | [datadog-log-pipeline-overview-eng.md](./datadog-log-pipeline-overview-eng.md) | articles/datadog-log-pipeline-overview.md | ✓ | Pending | — |
+| [datadog-apm-python-instrumentation-eng.md](./datadog-apm-python-instrumentation-eng.md) | articles/datadog-apm-python-instrumentation.md | ✓ | Pending | — |
 
 ### Step 2: ローカルに反映
 
